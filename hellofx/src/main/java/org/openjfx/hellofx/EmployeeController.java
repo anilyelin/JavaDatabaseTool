@@ -81,6 +81,10 @@ public class EmployeeController {
 		}
 	}
 	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	@FXML
 	public void resetFieldValues() throws IOException {
 		empIDField.setText("");
