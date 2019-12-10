@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.hellofx.MainController">
+   <children>
+      <MenuBar prefHeight="29.0" prefWidth="600.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="NewWindowItem" mnemonicParsing="false" onAction="#createNewWindow" text="New Window" />
+                  <MenuItem fx:id="createEMPItem" mnemonicParsing="false" onAction="#createEmployee" text="Create New Employee" />
+                  <MenuItem mnemonicParsing="false" text="Show All Employees" />
+                  <MenuItem fx:id="endSessionItem" mnemonicParsing="false" onAction="#backToLogin" text="End Session" />
+                  <MenuItem fx:id="closeItem" mnemonicParsing="false" onAction="#closeApp" text="Quit App" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" text="Create new employee" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#goToHelp" text="About" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="SQL Database">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Close Database Connection" />
+                  <MenuItem mnemonicParsing="false" text="Show Information" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <TableView fx:id="personTable" layoutX="14.0" layoutY="61.0" prefHeight="300.0" prefWidth="357.0">
+        <columns>
+          <TableColumn fx:id="empIdColumn" prefWidth="96.0" text="Employee ID" />
+          <TableColumn fx:id="firstNameColumn" prefWidth="82.0" text="First Name" />
+            <TableColumn fx:id="lastNameColumn" prefWidth="74.0" text="Last Name" />
+            <TableColumn fx:id="depIdColumn" prefWidth="102.0" text="Department ID" />
+        </columns>
+      </TableView>
+      <Text layoutX="14.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Database Entries" />
+      <Text layoutX="401.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SQL Connection Parameters" />
+      <Separator layoutX="388.0" layoutY="29.0" orientation="VERTICAL" prefHeight="370.0" prefWidth="7.0" />
+      <TextField fx:id="sqlUsernameField" layoutX="404.0" layoutY="102.0" />
+      <Label layoutX="404.0" layoutY="85.0" text="Username" />
+      <Label layoutX="404.0" layoutY="145.0" text="Host" />
+      <TextField fx:id="sqlHostField" layoutX="404.0" layoutY="162.0" />
+      <Label layoutX="404.0" layoutY="208.0" text="Password" />
+      <PasswordField fx:id="sqlPasswordField" layoutX="404.0" layoutY="225.0" />
+      <Button fx:id="sqlConnectButton" defaultButton="true" layoutX="444.0" layoutY="272.0" mnemonicParsing="false" onAction="#createConnection" text="Connect" />
+      <Button fx:id="sqlDisconnectButton" layoutX="444.0" layoutY="312.0" mnemonicParsing="false" text="Disconnect" textFill="#ee0000" />
+      <Button fx:id="testButton" layoutX="100.0" layoutY="365.0" mnemonicParsing="false" onAction="#testtest" text="Fetch Data" />
+      <Button layoutX="205.0" layoutY="365.0" mnemonicParsing="false" text="Update" />
+   </children>
+</AnchorPane>
