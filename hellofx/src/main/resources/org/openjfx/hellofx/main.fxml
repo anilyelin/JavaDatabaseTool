@@ -21,15 +21,15 @@
             <items>
               <MenuItem fx:id="NewWindowItem" mnemonicParsing="false" onAction="#createNewWindow" text="New Window" />
                   <MenuItem fx:id="createEMPItem" mnemonicParsing="false" onAction="#createEmployee" text="Create New Employee" />
-                  <MenuItem mnemonicParsing="false" text="Show All Employees" />
+                  <MenuItem fx:id="execSqlStatementItem" mnemonicParsing="false" onAction="#goToSqlPage" text="Execute SQL Statement" />
                   <MenuItem fx:id="endSessionItem" mnemonicParsing="false" onAction="#backToLogin" text="End Session" />
                   <MenuItem fx:id="closeItem" mnemonicParsing="false" onAction="#closeApp" text="Quit App" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
                   <MenuItem mnemonicParsing="false" text="Create new employee" />
+              <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -37,10 +37,12 @@
               <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#goToHelp" text="About" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="SQL Database">
+            <Menu mnemonicParsing="false" text="Database">
               <items>
+                  <MenuItem fx:id="mongoDbItem" mnemonicParsing="false" onAction="#goToMongoDbPage" text="Open MongoDB Page" />
+                  <MenuItem fx:id="metaDataItem" mnemonicParsing="false" onAction="#showMetaData" text="Show Metadata" />
+                  <MenuItem fx:id="deleteAllItem" mnemonicParsing="false" onAction="#deleteAllEntries" text="Delete All Entries" />
                 <MenuItem mnemonicParsing="false" text="Close Database Connection" />
-                  <MenuItem mnemonicParsing="false" text="Show Information" />
               </items>
             </Menu>
         </menus>

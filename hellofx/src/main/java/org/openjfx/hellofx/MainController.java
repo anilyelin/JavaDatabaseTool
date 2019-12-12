@@ -4,8 +4,9 @@ package org.openjfx.hellofx;
 import org.openjfx.hellofx.Test3;
 
 import java.io.IOException;
-
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 
+/**
+ * 
+ * @author anil yelin
+ *
+ */
 public class MainController {
 	
 	/**
@@ -78,6 +84,18 @@ public class MainController {
 	
 	@FXML
 	private MenuItem aboutItem;
+	
+	@FXML
+	private MenuItem metaDataItem;
+	
+	@FXML
+	private MenuItem deleteAllItem;
+	
+	@FXML
+	private MenuItem execSqlStatementItem;
+	
+	@FXML
+	private MenuItem mongoDbItem;
 
 	private App app;
 	/**
@@ -202,31 +220,92 @@ public class MainController {
 	/**
 	 * 
 	 * @throws IOException
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
 	@FXML 
-	public void testtest() throws IOException {
+	public void testtest() throws IOException, ClassNotFoundException, SQLException {
 		// dummy data
-        personData.add(new Person("2","sda","sfad","3"));
-        personData.add(new Person("2","dsad","asda","12"));
-        personData.add(new Person("3","adsad","asd","13"));
-        personData.add(new Person("4","dasa","asda","15"));
-        personData.add(new Person("5","Hadsadns","sda","16"));
-        personData.add(new Person("6","asda","asdasd","17"));
-        personData.add(new Person("7","dasdas","dads","18"));
-        personData.add(new Person("8","dsasd","asdas","19"));
+		
+		DatabaseConnection dbc = new DatabaseConnection();
+		ResultSet fNameResultSet = dbc.getFirstNames();
+		ResultSet lNameResultSet = dbc.getLastNames();
+		ResultSet empIdResultSet = dbc.getEmployeeIDs();
+		ResultSet depIdResultSet = dbc.getDepartmentIDs();
+	
+		while (fNameResultSet.next() && lNameResultSet.next() && empIdResultSet.next() && depIdResultSet.next()) {
+			String fName = fNameResultSet.getString("firstName");
+			System.out.println(fName);
+			String lName = lNameResultSet.getString("lastName");
+			System.out.println(lName);
+			Integer employeeID = empIdResultSet.getInt("empID");
+			String empID = employeeID.toString();
+			Integer departmentID = depIdResultSet.getInt("depID");
+			String depID = departmentID.toString();
+			
+			personData.add(new Person(empID,fName,lName,depID));
+			
+		}
+      
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         empIdColumn.setCellValueFactory(cellData -> cellData.getValue().empIdProperty());
         depIdColumn.setCellValueFactory(cellData -> cellData.getValue().depIdProperty());
-        System.out.println("allo");
         personTable.setItems(getPersonData());
   
        
 	}
-	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	@FXML
 	public void goToHelp() throws IOException {
 		App.setRoot("help");
+	}
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	@FXML
+	public void showMetaData() throws IOException, ClassNotFoundException, SQLException {
+		DatabaseConnection dbc = new DatabaseConnection();
+		dbc.getTableData();
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws SQLException
+	 */
+	public void deleteAllEntries() throws IOException, SQLException {
+		try {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Database Information");
+			alert.setHeaderText(null);
+			alert.setContentText("All entries will be deleted, are you sure?");
+			alert.showAndWait(); 
+			DatabaseConnection dbc = new DatabaseConnection();
+			dbc.deleteAll();
+			
+		} catch(Exception ex) {
+			System.err.println(ex);
+		}
+	}
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	@FXML
+	public void goToSqlPage() throws IOException {
+		App.setRoot("sqlWindow");
+	}
+	
+	@FXML
+	public void goToMongoDbPage() throws IOException {
+		App.setRoot("mongoDbPage");
 	}
 	
 	
