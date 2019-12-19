@@ -96,6 +96,9 @@ public class MainController {
 	
 	@FXML
 	private MenuItem mongoDbItem;
+	
+	@FXML
+	private MenuItem deleteEmployeeItem;
 
 	private App app;
 	/**
@@ -308,8 +311,19 @@ public class MainController {
 		App.setRoot("mongoDbPage");
 	}
 	
+	@FXML
+	public void deleteEmployeeByParameter() throws SQLException, ClassNotFoundException {
+		DatabaseConnection dbc = new DatabaseConnection();
+		Integer var = 122;
+		String id = var.toString();
+		
+		dbc.deleteEmployee(var);
+	}
 	
-	
+	@FXML
+	public void directToDelPage() throws IOException {
+		App.setRoot("delSQL");
+	}
 	
 
 }

@@ -29,7 +29,7 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
                   <MenuItem mnemonicParsing="false" text="Create new employee" />
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="deleteEmployeeItem" mnemonicParsing="false" onAction="#directToDelPage" text="Delete Employee" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
