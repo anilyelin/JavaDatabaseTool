@@ -2,10 +2,11 @@ package org.openjfx.hellofx;
 
 import java.util.ArrayList;
 
+import filehandling.CsvReader;
+
 public class Test {
 	
 	public static ArrayList<String> data;
-	
 	
 	public Test(ArrayList<String> data) {
 		this.data = data;

@@ -17,7 +17,7 @@ import java.util.Date;
 
 /**
  * 
- * @author anilyelin
+ * @author anil yelin
  *
  */
 public class LoginController {
@@ -61,8 +61,7 @@ public class LoginController {
 		String hashedPassword;
 		username = usernameField.getText().toString();
 		password = passwordField.getText().toString();
-		System.out.println("Username is: "+username);
-		System.out.println("Password is: "+password);
+	
 		// at this point we check if the corresponding field
 		// such as username and/or password are not entered 
 		// by the user
@@ -87,8 +86,6 @@ public class LoginController {
 		}
 		// if the login fails the user will be redirected
 		// to a new login page otherwise the 
-		System.out.println(username);
-		System.out.println(hashPassword(password));
 		hashedPassword = hashPassword(password);
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		writeIntoDatebase(username, hashedPassword, timeStamp);
@@ -124,7 +121,9 @@ public class LoginController {
 	 */
 	public void writeIntoDatebase(String user, String pass, String date) throws Exception {
 		
-		DatabaseConnection dbc = new DatabaseConnection();
+		final String str = "jdbc:mysql://localhost/login?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root&password=root";
+
+		DatabaseConnection dbc = new DatabaseConnection(str);
 		dbc.testData(user, pass, date);
 	}
 

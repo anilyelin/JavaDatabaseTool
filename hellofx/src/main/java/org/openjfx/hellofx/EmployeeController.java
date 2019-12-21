@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import filehandling.CsvReader;
 /**
  * 
  * @author anil yelin
@@ -79,6 +80,7 @@ public class EmployeeController {
 			alert.setContentText("There is an error with your input. ID's have to be digits");
 			alert.showAndWait(); 
 		}
+		resetFieldValues();
 	}
 	
 	/**
@@ -91,6 +93,12 @@ public class EmployeeController {
 		fnameField.setText("");
 		lnameField.setText("");
 		depIDField.setText("");
+	}
+	
+	@FXML
+	public void execCsvImport() throws IOException {
+		CsvReader c = new CsvReader();
+		c.start();
 	}
 	
 

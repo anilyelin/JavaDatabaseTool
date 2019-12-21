@@ -22,17 +22,17 @@ public class DatabaseConnection {
 	 * class
 	 */
 	
-	private Connection connect = null;
-	private Statement statement = null;
-	private ResultSet resultSet = null;
-	private PreparedStatement preparedStatement = null;
+	private Connection connect;
+	private Statement statement;
+	private ResultSet resultSet;
+	private PreparedStatement preparedStatement;
 	private final String connectionString = "com.mysql.cj.jdbc.Driver";
 	private final String driverStringforLogin = "jdbc:mysql://localhost/login?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root&password=root";
 	private final String driverStringforEmployee = "jdbc:mysql://localhost/javaAppDatabase?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root&password=root";
 	
 	
 	/**
-	 * 
+	 * by default the connection will be javaAppDatabase Connection
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
@@ -40,12 +40,29 @@ public class DatabaseConnection {
 		
 		try {
 		Class.forName(connectionString);
-		connect = DriverManager.getConnection(driverStringforLogin);
+		connect = DriverManager.getConnection(driverStringforEmployee);
 		System.out.println("Connection Successful");
 		
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+	}
+	
+	/**
+	 * parametrized constructor for specific database connection
+	 * @param specifiedString
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public DatabaseConnection(String specifiedString) throws SQLException, ClassNotFoundException {
+		try {
+			Class.forName(connectionString);
+			connect = DriverManager.getConnection(specifiedString);
+			System.out.println("Connection Successful");
+			
+			} catch (Exception ex) {
+				System.out.println(ex);
+			}
 	}
 	
 	/**
@@ -57,23 +74,12 @@ public class DatabaseConnection {
 	 */
 	public void testData(String user, String pass, String date) throws Exception{
 		String res = null;
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforLogin);
-			System.out.println("Connection Successful");
-			
-			statement = connect.createStatement();
-			
-			preparedStatement = connect.prepareStatement("insert into loginAccount values (?,?,?)");
-			
-			preparedStatement.setString(1, user);
-			preparedStatement.setString(2, pass);
-			preparedStatement.setString(3, date);
-			preparedStatement.executeUpdate();
-		}
-		catch (Exception ex) {
-			throw ex;
-		}
+		statement = connect.createStatement();
+		preparedStatement = connect.prepareStatement("insert into loginAccount values (?,?,?)");
+		preparedStatement.setString(1, user);
+		preparedStatement.setString(2, pass);
+		preparedStatement.setString(3, date);
+		preparedStatement.executeUpdate();
 	}
 	
 	/**
@@ -85,26 +91,12 @@ public class DatabaseConnection {
 	 * @throws Exception
 	 */
 	public ResultSet checkEmployee(int empid, String firstname) throws Exception {
-
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-			System.out.println("Connection Successful");
-			
-			statement = connect.createStatement();
-			
-			preparedStatement = connect.prepareStatement("select empID, firstName from employee where empID = (?) and firstName = (?)");
-			
-			preparedStatement.setInt(1, empid);
-			preparedStatement.setString(2, firstname);
-			ResultSet rs = preparedStatement.executeQuery();
-			return rs;
-		}
-		catch (Exception ex) {
-			throw ex;
-		}
-		
-		
+		statement = connect.createStatement();
+		preparedStatement = connect.prepareStatement("select empID, firstName from employee where empID = (?) and firstName = (?)");
+		preparedStatement.setInt(1, empid);
+		preparedStatement.setString(2, firstname);
+		ResultSet rs = preparedStatement.executeQuery();
+		return rs;	
 	}
 	
 	/**
@@ -118,9 +110,7 @@ public class DatabaseConnection {
 			Class.forName(connectionString);
 			connect = DriverManager.getConnection("jdbc:mysql://"+host+"/login?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user="+username+"&password="+password+"");
 			System.out.println("Connection Successful");
-			
-			
-			
+	
 		} catch(Exception ex) {
 			System.err.print(ex);
 		}
@@ -132,45 +122,27 @@ public class DatabaseConnection {
 	 * @param fname
 	 * @param lname
 	 * @param depid
+	 * @throws SQLException 
 	 */
-	public void empConnection(int id, String fname, String lname, int depid) {
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/javaAppDatabase?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root&password=root");
-			System.out.println("Connection Successful");
-			statement = connect.createStatement();
-			
-			preparedStatement = connect.prepareStatement("insert into employee values (?,?,?,?)");
-			
-			preparedStatement.setInt(1, id);
-			preparedStatement.setString(2, fname);
-			preparedStatement.setString(3, lname);
-			preparedStatement.setInt(4, depid);
-			preparedStatement.executeUpdate();
-			
-		}catch(Exception ex) {
-			System.err.print(ex);
-		}
+	public void empConnection(int id, String fname, String lname, int depid) throws SQLException {
+		statement = connect.createStatement();
+		preparedStatement = connect.prepareStatement("insert into employee values (?,?,?,?)");
+		preparedStatement.setInt(1, id);
+		preparedStatement.setString(2, fname);
+		preparedStatement.setString(3, lname);
+		preparedStatement.setInt(4, depid);
+		preparedStatement.executeUpdate();
 	}
 	
 	
 	/**
 	 * getting table meta, testing
+	 * @throws SQLException 
 	 */
-	public void getTableData() {
-		
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-			System.out.println("Connection Successful");
-			DatabaseMetaData data = connect.getMetaData();
-			int    majorVersion   = data.getDatabaseMajorVersion();
-			System.out.println(majorVersion);
-			
-		}catch(Exception ex) {
-			System.err.print(ex);
-		}
-		
+	public void getTableData() throws SQLException {
+		DatabaseMetaData data = connect.getMetaData();
+		int    majorVersion   = data.getDatabaseMajorVersion();
+		System.out.println(majorVersion);	
 	}
 	
 	/**
@@ -178,28 +150,20 @@ public class DatabaseConnection {
 	 * @throws SQLException
 	 */
 	public void getEmployeeData() throws SQLException {
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-			System.out.println("Connection Successful");
-			statement = connect.prepareStatement("select * from employees");
-			ResultSet rs = statement.executeQuery("select * from employee");
+		statement = connect.prepareStatement("select * from employees");
+		ResultSet rs = statement.executeQuery("select * from employee");
 			
-			while (rs.next()) {
-				String firstName  = rs.getString("firstName");
-				String lastName = rs.getString("lastName");
-				int empID = rs.getInt("empID");
-				int depID = rs.getInt("depID");
-				System.out.println(firstName);
-				System.out.println(lastName);
-				System.out.println(empID);
-				System.out.println(depID);
+		while (rs.next()) {
+			String firstName  = rs.getString("firstName");
+			String lastName = rs.getString("lastName");
+			int empID = rs.getInt("empID");
+			int depID = rs.getInt("depID");
+			System.out.println(firstName);
+			System.out.println(lastName);
+			System.out.println(empID);
+			System.out.println(depID);
 			}
-			
-			
-		} catch (Exception ex) {
-			System.err.print(ex);
-		}
+
 	}
 	
 	/**
@@ -210,9 +174,6 @@ public class DatabaseConnection {
 	 */
 	public ResultSet getFirstNames() throws SQLException {
 		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-			
 			statement = connect.prepareStatement("select firstName from employees");
 			ResultSet rs = statement.executeQuery("select firstName from employee");
 			return rs;
@@ -229,8 +190,6 @@ public class DatabaseConnection {
 	 */
 	public ResultSet getLastNames() throws SQLException {
 		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
 			statement = connect.prepareStatement("select lastName from employee");
 			ResultSet rs = statement.executeQuery("select lastName from employee");
 			return rs;
@@ -246,9 +205,6 @@ public class DatabaseConnection {
 	 */
 	public ResultSet getEmployeeIDs() throws SQLException {
 		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-
 			statement = connect.prepareStatement("select empID from employee");
 			ResultSet rs = statement.executeQuery("select empID from employee");
 			return rs;
@@ -265,9 +221,6 @@ public class DatabaseConnection {
 	 */
 	public ResultSet getDepartmentIDs() throws SQLException {
 		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-
 			statement = connect.prepareStatement("select depID from employee");
 			ResultSet rs = statement.executeQuery("select depID from employee");
 			return rs;
@@ -279,82 +232,42 @@ public class DatabaseConnection {
 	}
 	
 	public void deleteAll() throws SQLException {
-		
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-
-			preparedStatement = connect.prepareStatement("delete from employee");
-			
-			
-			preparedStatement.executeUpdate();
-			
-			
-		} catch (Exception ex) {
-			System.err.println(ex);
-			
-		}
-		
+		connect = DriverManager.getConnection(driverStringforEmployee);
+		preparedStatement = connect.prepareStatement("delete from employee");
+		preparedStatement.executeUpdate();
 	}
 	
 	public void deleteEmployee(int param) throws SQLException {
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-
 			preparedStatement = connect.prepareStatement("delete from employee where empID = (?)");
-			
-			
 			//preparedStatement.setString(1, id);
 			preparedStatement.setInt(1, param);
-		
 			preparedStatement.executeUpdate();
-
-			
-		} catch(Exception ex) {
-			System.err.println(ex);
-		}
 	}
 		/**
 		 * 
 		 * @param <E>
 		 * @param e
+		 * @throws SQLException 
 		 */
-		<E> void deleteEmployee2(E e) {
-		try {
-			Class.forName(connectionString);
-			connect = DriverManager.getConnection(driverStringforEmployee);
-
+		<E> void deleteEmployee2(E e) throws SQLException {
 			preparedStatement = connect.prepareStatement("delete from employee where firstName = (?)");
-			
-			
 			//preparedStatement.setString(1, id);
 			preparedStatement.setObject(1, e);
-		
 			preparedStatement.executeUpdate();
 
-			
-		} catch(Exception ex) {
-			System.err.println(ex);
-		}
 	}
 		/**
 		 * 
 		 * @param <E>
 		 * @param e
+		 * @throws SQLException 
 		 */
-		<E> void deleteEmployee3(E e1, E e2) {
-			try {
-				Class.forName(connectionString);
-				connect = DriverManager.getConnection(driverStringforEmployee);
-				preparedStatement = connect.prepareStatement("delete from employee where firstName = (?) and empID = (?)");
-				preparedStatement.setObject(1, e1);
-				preparedStatement.setObject(2, e2);
-				preparedStatement.executeUpdate();
-				
-			} catch (Exception ex) {
-				System.out.println(ex);
-			}
+		<E> void deleteEmployee3(E e1, E e2) throws SQLException {
+			preparedStatement = connect.prepareStatement("delete from employee where firstName = (?) and empID = (?)");
+			preparedStatement.setObject(1, e1);
+			preparedStatement.setObject(2, e2);
+			preparedStatement.executeUpdate();
+
 		}
 	
 }

@@ -6,6 +6,7 @@ import org.openjfx.hellofx.Test3;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Random;
 
 import javafx.collections.FXCollections;
@@ -99,6 +100,9 @@ public class MainController {
 	
 	@FXML
 	private MenuItem deleteEmployeeItem;
+	
+	@FXML
+	private Button updateButton;
 
 	private App app;
 	/**
@@ -217,6 +221,11 @@ public class MainController {
 	 * @return
 	 */
 	public ObservableList<Person> getPersonData() {
+		Iterator<Person> it = personData.iterator();
+		while (it.hasNext()) {
+			Person name = it.next();
+			System.out.println(name.getFirstName());
+		}
 		return personData;
 	}
 	
@@ -225,10 +234,11 @@ public class MainController {
 	 * @throws IOException
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
+	 * this function will fill the TableView on the main page 
+	 * by using obersable lists from javafx
 	 */
 	@FXML 
-	public void testtest() throws IOException, ClassNotFoundException, SQLException {
-		// dummy data
+	public void putDataIntoTable() throws IOException, ClassNotFoundException, SQLException {
 		
 		DatabaseConnection dbc = new DatabaseConnection();
 		ResultSet fNameResultSet = dbc.getFirstNames();
@@ -238,16 +248,14 @@ public class MainController {
 	
 		while (fNameResultSet.next() && lNameResultSet.next() && empIdResultSet.next() && depIdResultSet.next()) {
 			String fName = fNameResultSet.getString("firstName");
-			System.out.println(fName);
 			String lName = lNameResultSet.getString("lastName");
-			System.out.println(lName);
 			Integer employeeID = empIdResultSet.getInt("empID");
 			String empID = employeeID.toString();
 			Integer departmentID = depIdResultSet.getInt("depID");
 			String depID = departmentID.toString();
 			
 			personData.add(new Person(empID,fName,lName,depID));
-			
+
 		}
       
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
@@ -256,11 +264,12 @@ public class MainController {
         depIdColumn.setCellValueFactory(cellData -> cellData.getValue().depIdProperty());
         personTable.setItems(getPersonData());
   
-       
+  
 	}
 	/**
 	 * 
 	 * @throws IOException
+	 * redirects the user to the help page
 	 */
 	@FXML
 	public void goToHelp() throws IOException {
@@ -282,6 +291,8 @@ public class MainController {
 	 * 
 	 * @throws IOException
 	 * @throws SQLException
+	 * this action will lead to the deletion of all entries
+	 * this action can't be revoked
 	 */
 	public void deleteAllEntries() throws IOException, SQLException {
 		try {
@@ -305,21 +316,31 @@ public class MainController {
 	public void goToSqlPage() throws IOException {
 		App.setRoot("sqlWindow");
 	}
-	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	@FXML
 	public void goToMongoDbPage() throws IOException {
 		App.setRoot("mongoDbPage");
 	}
-	
+	/**
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	@FXML
 	public void deleteEmployeeByParameter() throws SQLException, ClassNotFoundException {
 		DatabaseConnection dbc = new DatabaseConnection();
 		Integer var = 122;
 		String id = var.toString();
-		
 		dbc.deleteEmployee(var);
 	}
 	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	@FXML
 	public void directToDelPage() throws IOException {
 		App.setRoot("delSQL");
