@@ -11,7 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-import filehandling.CsvReader;
+
+
+//import filehandling.CsvReader;
 /**
  * 
  * @author anil yelin
