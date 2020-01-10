@@ -5,15 +5,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.openjfx.hellofx.App;
+import org.openjfx.hellofx.DatabaseConnection;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class CsvReader  {
+public class CsvReader {
 	
 	
 	Stage stage;
@@ -21,10 +25,17 @@ public class CsvReader  {
 	/**
 	 * 
 	 * @throws IOException
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public void start() throws IOException {
+	public void start() throws IOException, ClassNotFoundException, SQLException {
 		
 		try {
+		//creating a database connection to submit the csv
+		// data to the mysql database
+		//DatabaseConnection dbc = new DatabaseConnection();
+		ArrayList<String> test = new ArrayList<>();
+		
 		FileChooser chooser = new FileChooser();
 	    chooser.setTitle("Open File");
 	    chooser.getExtensionFilters().addAll(
@@ -33,18 +44,25 @@ public class CsvReader  {
 		 
 	    BufferedReader csvReader = new BufferedReader(new FileReader(file));
 	    String row = "";
+	    
 		while ((row = csvReader.readLine()) != null) {
 	    	String[] data= row.split(",");
-	    	//System.out.println(data[0].toString());
-	    	//System.out.println(data[1].toString());
-	    	//System.out.println(data[2].toString());
-	    	//System.out.println(data[3].toString());
+	    	for (String elem : data) {
+	    		System.out.println(elem);
+	    		test.add(elem);
+	    	}
 	    }
+		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Information");
 		alert.setHeaderText(null);
 		alert.setContentText("Import successfull");
 		alert.showAndWait();
+		
+		Iterator itr = test.iterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
 		
 		App.setRoot("importData");
 		

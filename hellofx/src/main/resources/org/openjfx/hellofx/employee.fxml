@@ -23,7 +23,7 @@
             <TextField fx:id="depIDField" layoutX="216.0" layoutY="241.0" />
             <CheckBox layoutX="42.0" layoutY="319.0" mnemonicParsing="false" text="create automatic EMP ID" />
             <Button fx:id="submitButton" defaultButton="true" layoutX="257.0" layoutY="314.0" mnemonicParsing="false" onAction="#getEmpData" text="Submit" />
-            <Button fx:id="resetValuesButton" layoutX="349.0" layoutY="314.0" mnemonicParsing="false" onAction="#execCsvImport" text="Import CSV" />
+            <Button fx:id="csvButton" layoutX="349.0" layoutY="314.0" mnemonicParsing="false" onAction="#execCsvImport" text="Import CSV" />
             <Button fx:id="backButton" layoutX="474.0" layoutY="314.0" mnemonicParsing="false" onAction="#getToMain" text="Go Back" />
             <Label layoutX="79.0" layoutY="84.0" text="Enter employee ID:" />
             <Label layoutX="79.0" layoutY="135.0" text="Enter first name:" />

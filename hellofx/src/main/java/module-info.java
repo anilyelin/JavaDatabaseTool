@@ -9,3 +9,4 @@ module org.openjfx.hellofx {
     opens org.openjfx.hellofx to javafx.fxml;
     exports org.openjfx.hellofx;
 }
+

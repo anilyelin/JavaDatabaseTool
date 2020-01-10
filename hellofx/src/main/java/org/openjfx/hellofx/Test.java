@@ -17,13 +17,7 @@ public class Test {
 	}
 	
 	public static void main(String[] args) {
-		String str1 = "Hallo";
-		String str2 = "Hallo";
 		
-		if (str1=="Hallo") 
-			System.out.println("same");
-		else
-			System.out.println("wrong");
 		
 		ArrayList<String> ex = new ArrayList<String>();
 		

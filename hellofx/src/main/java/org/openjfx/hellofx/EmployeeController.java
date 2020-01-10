@@ -22,6 +22,12 @@ import filehandling.CsvReader;
 public class EmployeeController {
 	
 	@FXML
+	private Button csvButton;
+	
+	@FXML
+	private Button submitButton;
+	
+	@FXML
 	private Button backButton;
 	
 	@FXML
@@ -66,10 +72,7 @@ public class EmployeeController {
 		try {
 		int finalEmpID = Integer.parseInt(empId);
 		int finalDepID = Integer.parseInt(depID);
-		System.out.println(empId);
-		System.out.println(firstName);
-		System.out.println(lastName);
-		System.out.println(depID);
+
 		
 		DatabaseConnection dbc = new DatabaseConnection();
 		dbc.empConnection(finalEmpID, firstName, lastName, finalDepID);
@@ -96,7 +99,7 @@ public class EmployeeController {
 	}
 	
 	@FXML
-	public void execCsvImport() throws IOException {
+	public void execCsvImport() throws IOException, ClassNotFoundException, SQLException {
 		CsvReader c = new CsvReader();
 		c.start();
 	}
