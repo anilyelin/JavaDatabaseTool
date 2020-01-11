@@ -23,7 +23,7 @@ public class PersonOverview {
 
 	private App app;
 
-	private Test3 test3;
+	private PersonDataTable pdt;
 	
 	public PersonOverview() {
 
@@ -36,10 +36,10 @@ public class PersonOverview {
     }
 
 	
-	public void setMainApp(Test3 test3) {
-		this.test3 = test3;
+	public void setMainApp(PersonDataTable pdt) {
+		this.pdt = pdt;
 		initialize();
-		personTable.setItems(test3.getPersonData());
+		personTable.setItems(pdt.getPersonData());
 	}
 	
 
