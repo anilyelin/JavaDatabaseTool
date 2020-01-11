@@ -65,7 +65,8 @@
       <PasswordField fx:id="sqlPasswordField" layoutX="404.0" layoutY="225.0" />
       <Button fx:id="sqlConnectButton" defaultButton="true" layoutX="444.0" layoutY="272.0" mnemonicParsing="false" onAction="#createConnection" text="Connect" />
       <Button fx:id="sqlDisconnectButton" layoutX="444.0" layoutY="312.0" mnemonicParsing="false" text="Disconnect" textFill="#ee0000" />
-      <Button fx:id="testButton" layoutX="100.0" layoutY="365.0" mnemonicParsing="false" onAction="#putDataIntoTable" text="Retrieve Data" />
-      <Button fx:id="updateButton" layoutX="205.0" layoutY="365.0" mnemonicParsing="false" onAction="#getPersonData" text="Update" />
+      <Button fx:id="testButton" layoutX="90.0" layoutY="365.0" mnemonicParsing="false" onAction="#putDataIntoTable" text="Retrieve Data" />
+      <Button fx:id="csvExportButton" layoutX="205.0" layoutY="365.0" mnemonicParsing="false" onAction="#exportCSV" text="Export (CSV)" />
+      <Button fx:id="quitAppButton" layoutX="448.0" layoutY="365.0" mnemonicParsing="false" onAction="#quitAppAction" text="Quit App" />
    </children>
 </AnchorPane>

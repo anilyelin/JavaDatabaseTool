@@ -3,7 +3,10 @@ package org.openjfx.hellofx;
 
 import org.openjfx.hellofx.Test3;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -18,6 +21,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
@@ -54,7 +59,6 @@ public class MainController {
 	
 	@FXML
 	private TableColumn<Person, String> depIdColumn;
-
 	
 	@FXML
 	private MenuItem createEMPItem;
@@ -102,7 +106,10 @@ public class MainController {
 	private MenuItem deleteEmployeeItem;
 	
 	@FXML
-	private Button updateButton;
+	private Button csvExportButton;
+	
+	@FXML
+	private Button quitAppButton;
 
 	private App app;
 	/**
@@ -344,6 +351,60 @@ public class MainController {
 	@FXML
 	public void directToDelPage() throws IOException {
 		App.setRoot("delSQL");
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 * this function will allow to export the whole data
+	 * in the mysql database into a csv file
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	@FXML
+	public void exportCSV() throws IOException, ClassNotFoundException, SQLException {
+		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().addAll(
+	    	     new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+		File file = fc.showSaveDialog(new Stage());
+		PrintWriter out = null;
+		StringBuffer sb = new StringBuffer("");
+		try {
+			out = new PrintWriter(file);
+		} catch (FileNotFoundException e) {
+			System.err.print(e);
+		}
+		//for (int i=0;i<3;i++) {
+		//	out.println("Anil"+i);
+		//}
+		DatabaseConnection dbc = new DatabaseConnection();
+		dbc.getEmployeeData();
+		ResultSet rs1 = dbc.getEmployeeIDs();
+		ResultSet rs2 = dbc.getFirstNames();
+		ResultSet rs3 = dbc.getLastNames();
+		ResultSet rs4 = dbc.getDepartmentIDs();
+		while (rs1.next()&& rs2.next() && rs3.next() && rs4.next()) {
+			//sb.append(rs1.getString(0));
+			//sb.append(rs2.getString(1));
+			sb.append(rs1.getInt("empID"));
+			sb.append(",");
+			sb.append(rs2.getString("firstName"));
+			sb.append(",");
+			sb.append(rs3.getString("lastName"));
+			sb.append(",");
+			sb.append(rs4.getInt("depID"));
+			//sb.append(rs4.getString(3));
+			sb.append("\n");
+		}
+		out.write(sb.toString());
+		
+		out.close();
+		
+	}
+	
+	@FXML
+	public void quitAppAction() throws IOException {
+		System.exit(0);
 	}
 	
 

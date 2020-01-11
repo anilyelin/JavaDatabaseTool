@@ -6,9 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.openjfx.hellofx.App;
 //import org.openjfx.hellofx.DatabaseConnection;
 
@@ -17,7 +14,20 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author anil yelin
+ *
+ */
+
 public class CsvReader {
+	
+	/**
+	 * this class provides the possibility for
+	 * the user the import data in csv form.
+	 * this data will be transmitted to the 
+	 * mysql database
+	 */
 	
 	
 	Stage stage;
@@ -50,18 +60,8 @@ public class CsvReader {
 	    	
 	    	Integer empid = Integer.parseInt(data[0]);
 	    	Integer depid = Integer.parseInt(data[3]);
-	    	dbc.empConnection(empid, data[1], data[2], depid);
-	    	System.out.println();
-	    	System.out.println("The emp ids are: "+data[0]);
-	    	System.out.println("The firstnames are: "+data[1]);
-	    	System.out.println("The last names are: "+data[2]);
-	    	System.out.println("The dep ids are: "+data[3]);
-	    	System.out.println();
-	    	//for (String elem : data) {
-	    	//	System.out.println(elem);
-	    		//test.add(elem);
-	    		
-	    	//}
+	    	dbc.empConnection(empid, data[1].replace("\"", "").toString(), data[2].replace("\"","" ).toString(), depid);
+	    
 	    }
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -69,11 +69,7 @@ public class CsvReader {
 		alert.setHeaderText(null);
 		alert.setContentText("Import successfull");
 		alert.showAndWait();
-		
-		//Iterator itr = test.iterator();
-		//while (itr.hasNext()) {
-		//	System.out.println(itr.next());
-		//}
+	
 		
 		App.setRoot("importData");
 		
