@@ -11,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.security.MessageDigest;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -88,6 +89,22 @@ public class LoginController {
 		// to a new login page otherwise the 
 		hashedPassword = hashPassword(password);
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		System.out.println(hashedPassword);
+		//checking if the user input is in the database
+		//DatabaseConnection dbc = new DatabaseConnection("jdbc:mysql://localhost/login?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root&password=root");
+		//ResultSet first = dbc.checkUsername();
+		//ResultSet second = dbc.checkPasswd();
+		//while (first.next() && second.next()) {
+		//	if (first.getString("username").equals(username) && second.getString("password").equals(hashedPassword))
+		//		App.setRoot("main");
+		//	else {
+		//		System.out.println("Wrong username or password");
+		//		App.setRoot("login");
+		//		System.out.println(first.getString("username"));
+		//		System.out.println(second.getString("password"));
+		//	}
+				
+		//}
 		writeIntoDatebase(username, hashedPassword, timeStamp);
 		App.setRoot("main");
 	}

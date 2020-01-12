@@ -4,7 +4,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+/**
+ * 
+ * @author anilyelin
+ *
+ */
+
 public class PersonOverview {
+	
+	/**
+	 * provids the functionality to fill the javafx table
+	 * with the employee data
+	 */
 	
 	@FXML
 	private TableView<Person> personTable;

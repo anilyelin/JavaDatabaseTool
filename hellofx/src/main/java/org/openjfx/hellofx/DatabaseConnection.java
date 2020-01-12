@@ -269,7 +269,34 @@ public class DatabaseConnection {
 			preparedStatement.setObject(1, e1);
 			preparedStatement.setObject(2, e2);
 			preparedStatement.executeUpdate();
+		}
+		
+		/**
+		 * 
+		 * @return
+		 * @throws SQLException
+		 */
+		public ResultSet checkUsername() throws SQLException {
+			
 
+			statement = connect.prepareStatement("select username from loginAccount");
+			ResultSet user = statement.executeQuery("select username from loginAccount");
+		
+			return user;
+			
+		}
+		
+		/**
+		 * 
+		 * @return
+		 * @throws SQLException
+		 */
+		public ResultSet checkPasswd() throws SQLException {
+			
+			statement = connect.prepareStatement("select password from loginAccount");
+			ResultSet passwd = statement.executeQuery("select password from loginAccount");
+			
+			return passwd;
 		}
 	
 }

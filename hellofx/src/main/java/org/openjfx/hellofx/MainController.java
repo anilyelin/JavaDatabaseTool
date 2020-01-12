@@ -397,9 +397,14 @@ public class MainController {
 			sb.append("\n");
 		}
 		out.write(sb.toString());
-		
 		out.close();
 		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Information");
+		alert.setHeaderText(null);
+		alert.setContentText("File successfully exported");
+		alert.showAndWait(); 
+
 	}
 	
 	@FXML
