@@ -12,4 +12,4 @@ and run the command
 mvn package
 ```
 
-in the terminal assumed you have already installed maven.
+in the terminal assuming you have already installed maven.
