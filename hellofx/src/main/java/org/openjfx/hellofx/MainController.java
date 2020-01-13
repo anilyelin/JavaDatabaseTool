@@ -1,8 +1,5 @@
 package org.openjfx.hellofx;
 
-
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -169,9 +166,6 @@ public class MainController {
 		username = sqlUsernameField.getText();
 		host = sqlHostField.getText();
 		password = sqlPasswordField.getText();
-		System.out.println(username);
-		System.out.println(host);
-		System.out.println(password);
 		
 		if(sqlUsernameField.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);

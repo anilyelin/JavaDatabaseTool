@@ -1,6 +1,7 @@
 package org.openjfx.hellofx;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,7 +11,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
-import java.sql.Connection;
 import java.sql.*;
 
 /**
@@ -59,10 +59,13 @@ public class AccountController {
 	 * will be stored in a mysql database
 	 * the passwords will be hashed in SHA 256 using 
 	 * the java security libary
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
 	@FXML
-	public void createAccount() throws IOException {
+	public void createAccount() throws IOException, ClassNotFoundException, SQLException {
 		
+		DatabaseConnection dbc = new DatabaseConnection("jdbc:mysql://localhost/login?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root&password=root");
 		String username = userNameField.getText().toString();
 		String password1 = pass1Field.getText().toString();
 		String password2 = pass2Field.getText().toString();
@@ -73,11 +76,14 @@ public class AccountController {
 			App.setRoot("account");
 		}
 		Account account = new Account(username,password1,password2);
-		System.out.println("Account successfully created");
-		System.out.println();
-		System.out.println(account.getUsername());
-		System.out.println(account.getPassword1());
-		System.out.println(account.getPassword2());
+		
+		//now writing the data into the database
+		dbc.addAccount(username, hashPassword(password1));
+		//System.out.println("Account successfully created");
+		//System.out.println();
+		//System.out.println(account.getUsername());
+		//System.out.println(account.getPassword1());
+		//System.out.println(account.getPassword2());
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirmation Dialog");
 		alert.setHeaderText(null);
@@ -152,6 +158,24 @@ public class AccountController {
 			alert.setContentText("Password doesn't fullfill requirments, try again");
 			alert.showAndWait(); 
 			return check;
+		}
+	}
+	
+	//here to change
+	public String hashPassword(String base) {
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(base.getBytes("UTF-8"));
+			StringBuffer hexString = new StringBuffer();
+			
+			for (int i=0;i<hash.length;i++) {
+				String hex = Integer.toHexString(0xff & hash[i]);
+				hexString.append(hex);
+			}
+			
+			return hexString.toString();
+		} catch(Exception ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 

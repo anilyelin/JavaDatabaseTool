@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 
@@ -297,6 +299,18 @@ public class DatabaseConnection {
 			ResultSet passwd = statement.executeQuery("select password from loginAccount");
 			
 			return passwd;
+		}
+		
+		public void addAccount(String username, String password) throws SQLException {
+			statement = connect.createStatement();
+			preparedStatement = connect.prepareStatement("insert into loginAccount values (?,?,?)");
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, password);
+			String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+			preparedStatement.setString(3, timeStamp);
+		
+			preparedStatement.executeUpdate();
+			
 		}
 	
 }
