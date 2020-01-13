@@ -161,7 +161,7 @@ public class AccountController {
 		}
 	}
 	
-	//here to change
+	
 	public String hashPassword(String base) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
